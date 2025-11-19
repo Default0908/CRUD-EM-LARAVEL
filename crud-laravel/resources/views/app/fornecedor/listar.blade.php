@@ -3,92 +3,93 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Fornecedores</title>
+    <title>Lista de Fornecedores</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
+            min-height: 100vh;
+            background: #020617;
+            color: #e5e7eb;
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            font-size: 22px;
+        .navbar {
+            background: #020617;
+            border-bottom: 1px solid #1f2937;
         }
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 6px;
-            color: #34495e;
+        .nav-link {
+            color: #cbd5f5 !important;
+            font-size: .9rem;
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+        .nav-link.active {
+            color: #fff !important;
+            font-weight: 600;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #2ecc71;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
+        .page-header {
+            padding: 24px 0 8px;
         }
 
-        button:hover {
-            background: #27ae60;
+        .page-title {
+            font-size: 1.4rem;
+            font-weight: 600;
         }
 
-        .conteudo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
+        .table-card {
+            background: #020617;
+            border-radius: 16px;
+            border: 1px solid #1f2937;
+            padding: 16px 16px 6px;
+            box-shadow: 0 14px 35px rgba(15, 23, 42, .75);
         }
 
-        .menu {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            gap: 32px;
-            margin-right: 32px;
-            margin-top: 24px;
+        .table {
+            color: #e5e7eb;
         }
 
-        .menu-item {
-            overflow: hidden;
-            padding-left: 8px;
-            padding-right: 8px;
-            text-decoration: none;
-
+        .table thead {
+            background: #020617;
+            border-bottom: 1px solid #1f2937;
         }
 
-        #nav {
-            justify-content: end;
-            padding-right: 32px;
+        .table thead th {
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: #9ca3af;
+            border-bottom: none;
+        }
+
+        .table tbody tr {
+            border-color: #1f2937;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(31, 41, 55, 0.7);
+        }
+
+        .badge-action {
+            font-size: .75rem;
+        }
+
+        .pagination {
+            margin-bottom: 0;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark navbar-expand-lg bg-dark">
-        <div class="container-fluid" id="nav">
-            <ul class="navbar-nav">
+    <nav class="navbar navbar-dark navbar-expand-lg">
+        <div class="container-fluid px-4" id="nav">
+            <a class="navbar-brand" href="{{ route('app.home') }}">Painel Laravel</a>
+
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ route('app.home') }}">Home</a>
+                    <a class="nav-link" href="{{ route('app.home') }}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Cliente</a>
@@ -97,65 +98,83 @@
                     <a class="nav-link active" href="{{ route('app.fornecedor') }}">Fornecedor</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Produto</a>
+                    <a class="nav-link" href="#">Produto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Sair</a>
+                    <a class="nav-link" href="#">Sair</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="menu">
-        <a class="menu-item h5" href="{{ route('app.fornecedor.adicionar') }}">Novo</a>
-        <a class="menu-item h5" href="{{ route('app.fornecedor') }}">Consulta</a>
-    </div>
-    <div style="width: 90%; margin-left: auto; margin-right: auto; margin-top: 16px">
-        <table class="table" width="100%">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Site</th>
-                    <th scope="col">UF</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Ação</th>
-                    <th scope="col">Ação</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                @foreach ($fornecedores as $fornecedor)
-                    <tr>
-                        <th scope="row">{{ $fornecedor->id }}</th>
-                        <td>{{ $fornecedor->nome }}</td>
-                        <td>{{ $fornecedor->site }}</td>
-                        <td>{{ $fornecedor->uf }}</td>
-                        <td>{{ $fornecedor->email }}</td>
-                        <td>Excluir</td>
-                        <td><a href="{{ route('app.fornecedor.editar', $fornecedor->id) }}">Editar</a></td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <main class="py-4">
+        <div class="container">
 
-        <div class="d-flex justify-content-between align-items-center mt-3">
-            <div>
-                {{-- Paginação bonita usando Bootstrap 5 e mantendo os filtros na URL --}}
-                {{ $fornecedores->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
+            <div class="d-flex justify-content-between align-items-center page-header">
+                <div>
+                    <h1 class="page-title mb-1">Lista de fornecedores</h1>
+                    <small class="text-muted">
+                        Resultado da pesquisa realizada.
+                    </small>
+                </div>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-sm btn-primary" href="{{ route('app.fornecedor.adicionar') }}">Novo</a>
+                    <a class="btn btn-sm btn-outline-light" href="{{ route('app.fornecedor') }}">Nova consulta</a>
+                </div>
             </div>
+
+            <div class="table-card mt-2">
+                <table class="table align-middle mb-2">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Site</th>
+                            <th scope="col">UF</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col" class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @forelse ($fornecedores as $fornecedor)
+                            <tr>
+                                <th scope="row">{{ $fornecedor->id }}</th>
+                                <td>{{ $fornecedor->nome }}</td>
+                                <td>{{ $fornecedor->site }}</td>
+                                <td>{{ $fornecedor->uf }}</td>
+                                <td>{{ $fornecedor->email }}</td>
+                                <td class="text-center">
+                                    <span class="badge bg-danger badge-action me-1">Excluir</span>
+                                    <a href="{{ route('app.fornecedor.editar', $fornecedor->id) }}"
+                                        class="badge bg-info text-dark badge-action">
+                                        Editar
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-3">
+                                    Nenhum fornecedor encontrado com os filtros informados.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <small class="text-muted">
+                        Exibindo {{ $fornecedores->count() }} de {{ $fornecedores->total() }} registro(s)
+                    </small>
+
+                    <div>
+                        {{ $fornecedores->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
+                    </div>
+                </div>
+            </div>
+
         </div>
-
-        <!--
-            <br>
-            {{ $fornecedores->count() }} - Total de registros por página
-            <br>
-            {{ $fornecedores->total() }} - Total de registros da consulta
-            <br>
-            {{ $fornecedores->firstItem() }} - Número do primeiro registro da página
-            <br>
-            {{ $fornecedores->lastItem() }} - Número do último registro da página
-
-        -->
-        <br>
-    </div>
+    </main>
 </body>
+
+</html>
